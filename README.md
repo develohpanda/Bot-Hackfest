@@ -1,5 +1,13 @@
 # Introduction 
 # Set up Azure Environment
+We will set up a Web App Bot as a base.
+
+![Setup-1](./assets/Setup-1.png)
+
+Enter a bot name, and the remaining fields should automatically populate. Use the Basic C# bot template if using the Hackfest starter project.
+
+![Setup-2](./assets/Setup-2.png)
+
 # Test locally with the Bot Emulator
 https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started
 
@@ -7,9 +15,13 @@ https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started
 Follow the steps below to deploy to Azure.
 
 ![Publish-1](./assets/Publish-1.png)
+
 ![Publish-2](./assets/Publish-2.png)
+
 ![Publish-3](./assets/Publish-3.png)
+
 ![Publish-4](./assets/Publish-4.png)
+
 ![Publish-5](./assets/Publish-5.png)
 
 Make sure to republish after changing settings.
@@ -18,26 +30,9 @@ Make sure to republish after changing settings.
 ## Configure DirectLine channel and WebChat
 
 ![Publish-7](./assets/Publish-7.png)
+
 ![Publish-8](./assets/Publish-8.png)
 
-Republish, and then you can navigate to 
+Republish, and then you can navigate to https://your-bot-name.azurewebsites.net/ to view the chatbox.
 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
-
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
-
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
-
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://www.visualstudio.com/en-us/docs/git/create-a-readme). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+You can also navigate to http://localhost:3979/default.htm to view the same page, although the bot will still be connected to the deployed version in Azure. To debug a local version of the bot, use the bot emulator.

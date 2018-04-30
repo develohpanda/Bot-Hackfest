@@ -32,6 +32,7 @@ The purpose is to identify the users name and persist it. If the name is already
 ![Setup-5](./assets/Setup-5.png)
 
 # Bot Concepts
+Will summarise content and link to MSDN.
 
 # Features of the HackfestBotBase
 All of the features below, posting and recieving messages, and handling basic conversation flow, are implemented in the `DemoDialog.cs` example class. When you first run the project, this is the dialog that will power the conversation.
@@ -169,6 +170,9 @@ For example, `_messageService.PostAsync("Hello!\nI'm on a new line!");` will sen
 ![MessageService](./assets/MessageService.png)
 
 Reading separate concise messages is nicer than reading a big paragraph, in a conversational context. Think about how to effectively communicate using shorter messages.
+
+## User persistance
+TODO
 
 # Set up Azure Environment
 We will set up a Web App Bot as a base.

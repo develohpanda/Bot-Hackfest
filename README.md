@@ -3,17 +3,20 @@ Microsoft has a barebones C# starter project for bots, however it can require so
 
 I have also added a conversation to demonstrate how a conversation may flow, employing some of the helpers included in the [HackfestBotBase](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw).
 
-## Features of the HackfestBotBase
+## Demo
+
+The purpose is to identify the users name and persist it. If the name is already saved, the user is not asked and it loads from memory. It then prompts the user to type a phrase, provides suggested responses, and uses the response to determine the next step. This demo implemented in `dialogs/DemoDialog.cs` of the HackfestBotBase incorporates all of the bot concepts and features described before, and serves as an example. You can experiment with it [here](https://hackfestbotbase.azurewebsites.net/).
+
+# Bot Concepts
+
+# Features of the HackfestBotBase
 All of the features below, posting and recieving messages, and handling basic conversation flow, are implemented in the `DemoDialog.cs` example class. When you first run the project, this is the dialog that will power the conversation.
 
 This is built on top of the base bot project by Microsoft, so all of the documentation on MSDN is still relevant. However some patterns and helpers have been developed while building another prototype and developing internal IP, which are included within this project.
 
 **_This is one of the first iterations of the internal base project, and it will improve over time._**
 
-### Autofac/IoC
-
-
-### Data storage helpers
+## Data storage helpers
 The bot framework has three data stores.
 - `User`: data associated with a specific user (across all channels and conversations)
 - `Conversation`: data associated with a specific conversation with a specific user
@@ -25,7 +28,7 @@ There are two main classes that enable a cleaner method of managing the data sto
 - `models/DataStoreKey.cs` is an enum, defining keys for the key-value pairs. Each enum value has an attribute identifying the data store to use (User, Conversation, User-Conversation)
 - `services/BotDataService.cs` contains logic pertaining to reading and writing from the data store
 
-The implementation in the `BotDataService.cs` and `SetValue()`/`GetValueOrDefault()` extension methods ensure data is read/written against the correct key in the correct store, and is used as per the examples below.
+The implementation in the `BotDataService.cs` and `SetValue()`/`GetValueOrDefault()` extension methods ensure data is read/written against the correct key in the correct store, and is used as per the examples below. In order to use this bot service, inject the interface `IBotDataService` to your class.
 
 ```cs
 public enum DataStoreKey
@@ -48,7 +51,20 @@ public string GetPreferredName(IBotData botData)
 }
 ...
 ```
-### Dialog builder
+## Autofac/IoC
+A conversation and all of its instances will get completely serialized and saved to the data store by the bot framework, so when creating services to integrate with the bot, we need to ensure they don't get serialized and are resolved each time. Serialization can cause unnecessary issues.
+
+When registering a service with Autofac, use the the `FiberModule.Key_DoNotSerialize` key. 
+```cs
+builder.RegisterType<MessageService>()
+    .Keyed<IMessageService>(FiberModule.Key_DoNotSerialize)
+    .AsImplementedInterfaces()
+    .InstancePerLifetimeScope();
+```
+
+Use the examples in the `IoC` folder for registrations.
+
+## Dialog builder
 The dialog builder simplifies resolution of a dialog through an Autofac registration. Because of the way Autofac requires the creation of a lifetimescope each time a registered services needs to be resolved, the code can get cluttered with unnecessary plumbing. 
 
 For this reason, all logic pertaining to dialog creation/resolution should be contained within the `dialogs/DialogBuilder.cs` class. 
@@ -119,7 +135,7 @@ builder.Register((c, p) =>
 ...
 ```
 
-### Message service
+## Message service
 The purpose of this service is to send multiple messages from the bot to the user. This helper service will split a string into separate chat messages, using newline character `\n` in the original string.
 
 For example, `_messageService.PostAsync("Hello!\nI'm on a new line!");` will send messages as shown in the following image.
@@ -127,22 +143,6 @@ For example, `_messageService.PostAsync("Hello!\nI'm on a new line!");` will sen
 ![MessageService](./assets/MessageService.png)
 
 Reading separate concise messages is nicer than reading a big paragraph, in a conversational context. Think about how to effectively communicate using shorter messages.
-
-### Suggested Actions dialog
-
-
-- Autofac/IoC configured, with examples of how to register and use dialogs/services
-- Standard settings model to load from web.config
-- Data storage helper (`services/BotDataService.cs`, `models/DataStoreKey.cs`)
-- DialogBuilder to resolve dialogs through Autofac in a clean manner (`dialogs/DialogBuilder.cs`)
-- `services/MessageService.cs` to split a string into separate chat messages. Each newline character `\n` will 
-- `dialogs/ShowSuggestedActionsDialog.cs`
-
-## Demo
-
-This demo conversation is implemented in `dialogs/DemoDialog.cs`. The purpose is to identify the users name and persist it. If the name is already saved, the user is not asked and it loads from memory. It then prompts the user to type a phrase, provides suggested responses, and uses the response to determine the next step.
-
-![Conversation](./assets/Conversation.png)
 
 # Get started
 1. Ensure you have Visual Studio 2017 installed.
@@ -207,3 +207,13 @@ MSDN documentation for configuring channels, speech priming etc [here](https://d
 Republish, and then you can navigate to https://your-bot-name.azurewebsites.net/ to use the chatbox.
 
 You can also navigate to http://localhost:3979/default.htm to view the same page, although the bot will be connected to the deployed version in Azure. To debug a local version of the bot, use the bot emulator.
+
+# Gotcha
+- Is each dialog class taggged with the `[Serializable]` attribute?
+- Do the service registrations have the `FiberModule.Key_DoNotSerialize` key added? 
+```cs
+builder.RegisterType<MessageService>()
+    .Keyed<IMessageService>(FiberModule.Key_DoNotSerialize)
+    .AsImplementedInterfaces()
+    .InstancePerLifetimeScope();
+```

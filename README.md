@@ -4,10 +4,50 @@ Microsoft has a barebones C# starter project for bots, however it can require so
 I have also added a conversation to demonstrate how a conversation may flow, employing some of the helpers included in the [HackfestBotBase](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw).
 
 ## Features of the HackfestBotBase
-### Autofac/IoC
-### Data storage helpers
-The bot framework has three data stores - UserData, ConversationData, UserConversationData. These are key-value stores, and can get difficult to manage if the keys, deseriali
+All of the features below, posting and recieving messages, and handling basic conversation flow, are implemented in the `DemoDialog.cs` example class. When you first run the project, this is the dialog that will power the conversation.
 
+This is built on top of the base bot project by Microsoft, so all of the documentation on MSDN is still relevant. However some patterns and helpers have been developed while building another prototype and developing internal IP, which are included within this project.
+
+**_This is one of the first iterations of the internal base project, and it will improve over time._**
+
+### Autofac/IoC
+
+
+### Data storage helpers
+The bot framework has three data stores.
+- `User`: data associated with a specific user (across all channels and conversations)
+- `Conversation`: data associated with a specific conversation with a specific user
+- `PrivateConversation`: data associated with a specific user within the context of a specific conversation
+
+ These are key-value stores and can get unwieldy to manage when data is written to one store with a certain key, and read from a different store with a different key. This can especially happen when there are many key-value pairs being stored. It is welcoming bugs and is a trigger for rip-your-hair-out syndrome.
+
+There are two main classes that enable a cleaner method of managing the data stores. 
+- `models/DataStoreKey.cs` is an enum, defining keys for the key-value pairs. Each enum value has an attribute identifying the data store to use (User, Conversation, User-Conversation)
+- `services/BotDataService.cs` contains logic pertaining to reading and writing from the data store
+
+The implementation in the `BotDataService.cs` and `SetValue()`/`GetValueOrDefault()` extension methods ensure data is read/written against the correct key in the correct store, and is used as per the examples below.
+
+```cs
+public enum DataStoreKey
+{
+    [DataStoreEntry("Preferred name", DataStore.User)]
+    PreferredFirstName
+}
+```
+```cs
+// Snippet from class BotDataService
+...
+public void SetPreferredName(IBotData botData, string name) 
+{
+    botData.SetValue(DataStoreKey.PreferredFirstName, name);
+}
+
+public string GetPreferredName(IBotData botData) 
+{
+    return botData.GetValueOrDefault<string>(DataStoreKey.PreferredFirstName);
+}
+...
+```
 ### Dialog builder
 The dialog builder simplifies resolution of a dialog through an Autofac registration. Because of the way Autofac requires the creation of a lifetimescope each time a registered services needs to be resolved, the code can get cluttered with unnecessary plumbing. 
 
@@ -17,6 +57,67 @@ Use the example implementations and notes in the files below.
 - IoC registration: `IoC/ApplicationDialogsModule.cs`
 - IoC resolution: `dialogs/DialogBuilder.cs`
 - Usage: `dialogs/DemoDialog.cs`
+
+As in the examples below, the CreateDialog method handles all the lifetime scope creation/deletion duties when resolving an instance.
+
+#### Example: Register and resolve dialog without no custom parameters
+```cs
+// Snippet from DialogBuilder.cs
+public NameDialog BuildNameDialog(IMessageActivity message)
+{
+    return CreateDialog(message, scope => scope.Resolve<NameDialog>());
+}
+```
+```cs
+// Snippet from NameDialog.cs
+...
+private readonly IBotDataService _botDataService;
+
+public NameDialog(IBotDataService botDataService)
+{
+    SetField.NotNull(out _botDataService, nameof(botDataService), botDataService);
+}
+...
+```
+```cs
+// Snippet from ApplicationDialogsModule.cs
+...
+builder.RegisterType<NameDialog>().AsSelf().InstancePerDependency();
+...
+```
+#### Example: Register and resolve dialog with custom parameters
+```cs
+// Snippet from DialogBuilder.cs
+public ShowSuggestedActionsDialog BuildShowSuggestedActionsDialog(IMessageActivity message, string prompt, List<string> options)
+{
+    return CreateDialog(message, scope => scope.Resolve<ShowSuggestedActionsDialog>(TypedParameter.From(prompt), TypedParameter.From(options)));
+}
+```
+```cs
+// Snippet from ShowSuggestedActionsDialog.cs
+...
+private readonly IMessageService _messageService;
+
+public ShowSuggestedActionsDialog(string prompt, List<string> options, IMessageService messageService)
+{
+    SetField.NotNull(out _messageService, nameof(messageService), messageService);
+    SetField.NotNull(out _options, nameof(options), options);
+    SetField.NotNull(out _prompt, nameof(prompt), prompt);
+}
+...
+```
+```cs
+// Snippet from ApplicationDialogsModule.cs
+...
+builder.Register((c, p) =>
+    new ShowSuggestedActionsDialog(
+        p.TypedAs<string>(),
+        p.TypedAs<List<string>>(),
+        c.Resolve<IMessageService>()))
+    .AsSelf()
+    .InstancePerDependency();
+...
+```
 
 ### Message service
 The purpose of this service is to send multiple messages from the bot to the user. This helper service will split a string into separate chat messages, using newline character `\n` in the original string.

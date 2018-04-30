@@ -32,17 +32,50 @@ The purpose is to identify the users name and persist it. If the name is already
 ![Setup-5](./assets/Setup-5.png)
 
 # Bot Concepts
-Will summarise content and link to MSDN.
+This section will primarily link to the [Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/) and [Bot Builder SDK]((https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-overview)) documentation on MSDN as the main source of information. At the very least, I suggest reading through the following short documents to understand the [key concepts](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-concept).
+
+## First interaction: Language vs Menus
+[MSDN](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-first-interaction#language-versus-menus)
+
+Starting the bot with an open-ended question such as "How can I help you?" is generally not recommended. If your bot has a hundred different things it can do, chances are users won’t be able to guess most of them. Your bot didn’t tell them what it can do, so how can they possibly know? **Menus provide a simple solution to that problem.**
+
+## Dialogs, conversation flow
+[Design](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-conversation-flow), [Implementation](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-manage-conversation-flow)
+
+Dialogs enable the bot developer to logically separate areas of bot functionality and guide conversation flow. 
+
+When one dialog invokes another, the Bot Builder adds the new dialog to the top of the dialog stack. The dialog that is on top of the stack is in control of the conversation. Every new message sent by the user will be subject to processing by that dialog until it either closes or redirects to another dialog. When a dialog closes, it's removed from the stack, and the previous dialog in the stack assumes control of the conversation. 
+
+![dialogs-screens](./assets/dialogs-screens.png)
+
+## Dialog lifecycle
+[MSDN](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-manage-conversation-flow#dialog-lifecycle)
+
+When a dialog is invoked, it takes control of the conversation flow. Every new message will be subject to processing by that dialog until it either closes or redirects to another dialog.
+
+In C#, you can use `context.Wait()` to specify the callback to invoke the next time the user sends a message. To close a dialog and remove it from the stack (thereby sending the user back to the prior dialog in the stack), use `context.Done()`. You must end every dialog method with `context.Wait()`, `context.Fail()`, `context.Done()`, or some redirection directive such as `context.Forward()` or `context.Call()`. A dialog method that does not end with one of these will result in an error (because the framework does not know what action to take the next time the user sends a message).
+
+## Channel inspector
+
+[MSDN](https://docs.botframework.com/en-us/channel-inspector/channels/WebChat)
+
+This will allow you to see all the different types of cards that can be attached to messages to add rich data to your conversation.
+
+## Additional links
+- **[MAKE BOTS SMARTER](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-concept-intelligence)** with Cognitive Services
+- [Bot scenarios](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-scenario-overview)
+- [BotBuilder-Location](https://github.com/Microsoft/BotBuilder-Location)
+- [C# samples](https://github.com/Microsoft/BotBuilder-Samples/tree/master/CSharp) 
 
 # Features of the HackfestBotBase
-All of the features below, posting and recieving messages, and handling basic conversation flow, are implemented in the `DemoDialog.cs` example class. When you first run the project, this is the dialog that will power the conversation.
+All of the features below, posting and recieving messages, and handling basic conversation flow, are implemented in the `DemoDialog.cs` example class. When you first run the project, this is the dialog that will power the conversation (as configured in `MessageControler.cs`).
 
-This is built on top of the base bot project by Microsoft, so all of the documentation on MSDN is still relevant. However some patterns and helpers have been developed while building another prototype and developing internal IP, which are included within this project.
+This project is built on top of the base bot project by Microsoft, so all of the documentation on MSDN is still relevant. However some patterns and helpers have been developed while building another prototype and developing internal IP, which are included within this project.
 
 **_This is one of the first iterations of the internal base project, and it will improve over time._**
 
-## Data storage helpers
-The bot framework has three data stores.
+## Data storage/state helpers
+The bot framework has three data stores. ([MSDN](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-concepts#state))
 - `User`: data associated with a specific user (across all channels and conversations)
 - `Conversation`: data associated with a specific conversation with a specific user
 - `PrivateConversation`: data associated with a specific user within the context of a specific conversation
@@ -172,7 +205,11 @@ For example, `_messageService.PostAsync("Hello!\nI'm on a new line!");` will sen
 Reading separate concise messages is nicer than reading a big paragraph, in a conversational context. Think about how to effectively communicate using shorter messages.
 
 ## User persistance
-TODO
+When you use any channel other than a webchat, such as Messenger, a user id is returned unique to each channel. When using a webchat, if the web app has a concept of user accounts, then that account id is used to identify an existing user and load their data from state.
+
+In a web app without the concept of a user account, there is no way of automatically identifying a return user. The [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) control by Microsoft is open-source, so on [my fork](https://github.com/develohpanda/BotFramework-WebChat) I have added a new boolean property named `persistUser`. The compiled version of this fork exists [here](https://github.com/develohpanda/BotFramework-WebChat), and can be used to embed an app as:
+
+If this flag is set, the modification is enabled. On launching the chat, it will generate a new user id and persist it to localstorage. If an id already exists, that id will be used to identify a return user. A timeout can be added in the future, but at the moment there is no timeout. This means in the demo above, if you have already provided your name, because the bot identifies a return user with the saved id, it knows your name and doesn't ask you again.
 
 # Set up Azure Environment
 We will set up a Web App Bot as a base.

@@ -8,7 +8,11 @@ Enter a bot name, and the remaining fields should automatically populate. Use th
 
 ![Setup-2](./assets/Setup-2.png)
 
-# Test locally with the Bot Emulator
+# Set up local dev environment
+
+Download the starter project from [here](https://intergen1-my.sharepoint.com/:f:/r/personal/openders_intergen_org_nz/Documents/Projects/Bot-Hackfest/Base?csf=1&e=pB9FOI). 
+
+## Test locally with the Bot Emulator
 https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started
 
 # Publish

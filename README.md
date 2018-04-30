@@ -1,6 +1,49 @@
 # Introduction 
+Microsoft has a barebones C# starter project for bots, however it can require some plumbing to get running properly. By all means, if you wish to use one of those example projects, you can. For the purposes of the Hackfest, I have extracted patterns and helpers developed and used in a very recent bot.
 
-# Getting started
+I have also added a conversation to demonstrate how a conversation may flow, employing some of the helpers included in the [HackfestBotBase](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw).
+
+## Features of the HackfestBotBase
+### Autofac/IoC
+### Data storage helpers
+The bot framework has three data stores - UserData, ConversationData, UserConversationData. These are key-value stores, and can get difficult to manage if the keys, deseriali
+
+### Dialog builder
+The dialog builder simplifies resolution of a dialog through an Autofac registration. Because of the way Autofac requires the creation of a lifetimescope each time a registered services needs to be resolved, the code can get cluttered with unnecessary plumbing. 
+
+For this reason, all logic pertaining to dialog creation/resolution should be contained within the `dialogs/DialogBuilder.cs` class. 
+
+Use the example implementations and notes in the files below.
+- IoC registration: `IoC/ApplicationDialogsModule.cs`
+- IoC resolution: `dialogs/DialogBuilder.cs`
+- Usage: `dialogs/DemoDialog.cs`
+
+### Message service
+The purpose of this service is to send multiple messages from the bot to the user. This helper service will split a string into separate chat messages, using newline character `\n` in the original string.
+
+For example, `_messageService.PostAsync("Hello!\nI'm on a new line!");` will send messages as shown in the following image.
+
+![MessageService](./assets/MessageService.png)
+
+Reading separate concise messages is nicer than reading a big paragraph, in a conversational context. Think about how to effectively communicate using shorter messages.
+
+### Suggested Actions dialog
+
+
+- Autofac/IoC configured, with examples of how to register and use dialogs/services
+- Standard settings model to load from web.config
+- Data storage helper (`services/BotDataService.cs`, `models/DataStoreKey.cs`)
+- DialogBuilder to resolve dialogs through Autofac in a clean manner (`dialogs/DialogBuilder.cs`)
+- `services/MessageService.cs` to split a string into separate chat messages. Each newline character `\n` will 
+- `dialogs/ShowSuggestedActionsDialog.cs`
+
+## Demo
+
+This demo conversation is implemented in `dialogs/DemoDialog.cs`. The purpose is to identify the users name and persist it. If the name is already saved, the user is not asked and it loads from memory. It then prompts the user to type a phrase, provides suggested responses, and uses the response to determine the next step.
+
+![Conversation](./assets/Conversation.png)
+
+# Get started
 1. Ensure you have Visual Studio 2017 installed.
 2. Download the base solution from [here](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw). _Suggestion: create a git repository and host it somewhere to collaborate and track changes._
 3. Open the solution
@@ -62,4 +105,4 @@ MSDN documentation for configuring channels, speech priming etc [here](https://d
 
 Republish, and then you can navigate to https://your-bot-name.azurewebsites.net/ to use the chatbox.
 
-You can also navigate to http://localhost:3979/default.htm to view the same page, although the bot will still be connected to the deployed version in Azure. To debug a local version of the bot, use the bot emulator.
+You can also navigate to http://localhost:3979/default.htm to view the same page, although the bot will be connected to the deployed version in Azure. To debug a local version of the bot, use the bot emulator.

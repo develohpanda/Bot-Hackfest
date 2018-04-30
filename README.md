@@ -251,7 +251,7 @@ Republish, and then you can navigate to https://your-bot-name.azurewebsites.net/
 
 You can also navigate to http://localhost:3979/default.htm to view the same page, although the bot will be connected to the deployed version in Azure. To debug a local version of the bot, use the bot emulator.
 
-# Gotcha
+# Having issues?
 - Is each dialog class taggged with the `[Serializable]` attribute?
 - Do the service registrations have the `FiberModule.Key_DoNotSerialize` key added? 
 ```cs

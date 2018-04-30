@@ -163,7 +163,7 @@ builder.Register((c, p) =>
 ```
 
 ## Message service
-The purpose of this service is to send multiple messages from the bot to the user. This helper service will split a string into separate chat messages, using newline character `\n` in the original string.
+The purpose of this service is to send multiple messages from the bot to the user. This helper service will split a string into separate chat messages, using newline characters `\n` in the original string.
 
 For example, `_messageService.PostAsync("Hello!\nI'm on a new line!");` will send messages as shown in the following image.
 

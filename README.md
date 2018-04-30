@@ -7,6 +7,30 @@ I have also added a conversation to demonstrate how a conversation may flow, emp
 
 The purpose is to identify the users name and persist it. If the name is already saved, the user is not asked and it loads from memory. It then prompts the user to type a phrase, provides suggested responses, and uses the response to determine the next step. This demo implemented in `dialogs/DemoDialog.cs` of the HackfestBotBase incorporates all of the bot concepts and features described before, and serves as an example. You can experiment with it [here](https://hackfestbotbase.azurewebsites.net/).
 
+# Get started
+1. Ensure you have Visual Studio 2017 installed.
+2. Download the base solution from [here](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw). _Suggestion: create a git repository and host it somewhere to collaborate and track changes._
+3. Open the solution
+4. Right click on the solution > Restore nuget packages
+5. Build solution
+6. Start debugging the API project (F5)
+7. Open the Bot Emulator
+8. Navigate to http://localhost:3978/api/messages and press connect.
+
+## Test locally with the Bot Emulator
+1. Install the bot emulator using the instructions [here](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started).
+2. Once your project has started, open the bot emulator, navigate to http://localhost:3978/api/messages and press connect.
+
+![Setup-3](./assets/Setup-3.png)
+
+3. If successful, you should see 200 in the bot emulator logs.
+
+![Setup-4](./assets/Setup-4.png)
+
+4. **SAY HI!**
+
+![Setup-5](./assets/Setup-5.png)
+
 # Bot Concepts
 
 # Features of the HackfestBotBase
@@ -22,10 +46,12 @@ The bot framework has three data stores.
 - `Conversation`: data associated with a specific conversation with a specific user
 - `PrivateConversation`: data associated with a specific user within the context of a specific conversation
 
- These are key-value stores and can get unwieldy to manage when data is written to one store with a certain key, and read from a different store with a different key. This can especially happen when there are many key-value pairs being stored. It is welcoming bugs and is a trigger for rip-your-hair-out syndrome.
+These are stored in an in-memory store, but if you set the `AzureWebJobsStorage` config value, it will use Table Storage. This is automatically configured once you deploy to Azure, but locally the in-memory store will be used.
+
+These are key-value stores and can get unwieldy to manage when data is written to one store with a certain key, and read from a different store with a different key. This can especially happen when there are many key-value pairs being stored. It is welcoming bugs and is a trigger for rip-your-hair-out syndrome.
 
 There are two main classes that enable a cleaner method of managing the data stores. 
-- `models/DataStoreKey.cs` is an enum, defining keys for the key-value pairs. Each enum value has an attribute identifying the data store to use (User, Conversation, User-Conversation)
+- `models/DataStoreKey.cs` is an enum, defining keys for the key-value pairs. Each enum value has an attribute identifying the data store to use (User, Conversation, PrivateConversation)
 - `services/BotDataService.cs` contains logic pertaining to reading and writing from the data store
 
 The implementation in the `BotDataService.cs` and `SetValue()`/`GetValueOrDefault()` extension methods ensure data is read/written against the correct key in the correct store, and is used as per the examples below. In order to use this bot service, inject the interface `IBotDataService` to your class.
@@ -52,7 +78,7 @@ public string GetPreferredName(IBotData botData)
 ...
 ```
 ## Autofac/IoC
-A conversation and all of its instances will get completely serialized and saved to the data store by the bot framework, so when creating services to integrate with the bot, we need to ensure they don't get serialized and are resolved each time. Serialization can cause unnecessary issues.
+A conversation and all of its instances/resources will get serialized and saved to the data store by the bot framework, so when creating services to integrate with the bot, we need to ensure they don't get serialized and are resolved each time. Serialization can cause unnecessary issues.
 
 When registering a service with Autofac, use the the `FiberModule.Key_DoNotSerialize` key. 
 ```cs
@@ -143,30 +169,6 @@ For example, `_messageService.PostAsync("Hello!\nI'm on a new line!");` will sen
 ![MessageService](./assets/MessageService.png)
 
 Reading separate concise messages is nicer than reading a big paragraph, in a conversational context. Think about how to effectively communicate using shorter messages.
-
-# Get started
-1. Ensure you have Visual Studio 2017 installed.
-2. Download the base solution from [here](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw). _Suggestion: create a git repository and host it somewhere to collaborate and track changes._
-3. Open the solution
-4. Right click on the solution > Restore nuget packages
-5. Build solution
-6. Start debugging the API project (F5)
-7. Open the Bot Emulator
-8. Navigate to http://localhost:3978/api/messages and press connect.
-
-## Test locally with the Bot Emulator
-1. Install the bot emulator using the instructions [here](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started).
-2. Once your project has started, open the bot emulator, navigate to http://localhost:3978/api/messages and press connect.
-
-![Setup-3](./assets/Setup-3.png)
-
-3. If successful, you should see 200 in the bot emulator logs.
-
-![Setup-4](./assets/Setup-4.png)
-
-4. **SAY HI!**
-
-![Setup-5](./assets/Setup-5.png)
 
 # Set up Azure Environment
 We will set up a Web App Bot as a base.

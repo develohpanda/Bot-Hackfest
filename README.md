@@ -253,15 +253,16 @@ In a web app without the concept of a user account, there is no way of automatic
 If this flag is set, the modification is enabled. On launching the chat, it will generate a new user id and persist it to localstorage. If an id already exists, that id will be used to identify a return user. A timeout can be added in the future, but at the moment there is no timeout. This means in the demo above, if you have already provided your name, because the bot identifies a return user with the saved id, it knows your name and doesn't ask you again.
 
 # Set up Azure Environment
-Log into the [Azure Portal](https://portal.azure.com). 
 
-Select **Create a Resource** from the menu. 
+**Make sure to use Microsoft Edge** to browse the Azure Portal if you come across any issues. I have faced bugs with creating a Web App Bot using Chrome and Firefox.
 
-We will set up a Web App Bot as a base. It's found under **AI + Cognitive Services**.
+1. Log into the [Azure Portal](https://portal.azure.com). 
+2. Select **Create a Resource** from the menu. 
+3. We will set up a Web App Bot as a base. It's found under **AI + Cognitive Services**.
 
 ![Setup-1](./assets/Setup-1.png)
 
-Enter a bot name, and the remaining fields should automatically populate. Use the Basic C# bot template if using the Hackfest starter project. ([MSDN](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart))
+4. Enter a bot name, and the remaining fields should automatically populate. Use the Basic C# bot template if using the Hackfest starter project. ([MSDN](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart))
 
 ![Setup-2](./assets/Setup-2.png)
 

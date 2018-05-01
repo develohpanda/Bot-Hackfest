@@ -17,6 +17,8 @@ The purpose is to identify the users name and persist it. If the name is already
 7. Open the Bot Emulator
 8. Navigate to http://localhost:3978/api/messages and press connect.
 
+One of the fastest ways to get something working is looking through examples and making changes. Play around with the demo project, using the docs below and on MSDN to supplement.
+
 ## Test locally with the Bot Emulator
 1. Install the bot emulator using the instructions [here](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started).
 2. Once your project has started, open the bot emulator, navigate to http://localhost:3978/api/messages and press connect.

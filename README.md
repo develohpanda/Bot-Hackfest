@@ -6,8 +6,8 @@
 
 - [Introduction](#introduction)
   - [Demo](#demo)
+  - [Prerequisites](#prerequisites)
 - [Get started](#get-started)
-  - [Azure](#azure)
   - [Test locally with the Bot Emulator](#test-locally-with-the-bot-emulator)
 - [Bot Concepts](#bot-concepts)
   - [First interaction: Language vs Menus](#first-interaction-language-vs-menus)

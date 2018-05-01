@@ -22,7 +22,7 @@
       - [Example: Register and resolve dialog without no custom parameters](#example-register-and-resolve-dialog-without-no-custom-parameters)
       - [Example: Register and resolve dialog with custom parameters](#example-register-and-resolve-dialog-with-custom-parameters)
   - [Message service](#message-service)
-  - [User persistance](#user-persistance)
+  - [User persistence](#user-persistence)
 - [Set up Azure Environment](#set-up-azure-environment)
 - [Publish](#publish)
   - [Configure Channels](#configure-channels)
@@ -109,7 +109,7 @@ This will allow you to see all the different types of cards that can be attached
 - [C# samples](https://github.com/Microsoft/BotBuilder-Samples/tree/master/CSharp) 
 
 # Features of the HackfestBotBase
-All of the features below, posting and recieving messages, and handling basic conversation flow, are implemented in the `DemoDialog.cs` example class. When you first run the project, this is the dialog that will power the conversation (as configured in `MessageControler.cs`).
+All of the features below, posting and receiving messages, and handling basic conversation flow, are implemented in the `DemoDialog.cs` example class. When you first run the project, this is the dialog that will power the conversation (as configured in `MessageControler.cs`).
 
 This project is built on top of the base bot project by Microsoft, so all of the documentation on MSDN is still relevant. However some patterns and helpers have been developed while building another prototype and developing internal IP, which are included within this project.
 
@@ -155,7 +155,7 @@ public string GetPreferredName(IBotData botData)
 ## Autofac/IoC
 A conversation and all of its instances/resources will get serialized and saved to the data store by the bot framework, so when creating services to integrate with the bot, we need to ensure they don't get serialized and are resolved each time. Serialization can cause unnecessary issues.
 
-When registering a service with Autofac, use the the `FiberModule.Key_DoNotSerialize` key. 
+When registering a service with Autofac, use the `FiberModule.Key_DoNotSerialize` key. 
 ```cs
 builder.RegisterType<MessageService>()
     .Keyed<IMessageService>(FiberModule.Key_DoNotSerialize)
@@ -245,7 +245,7 @@ For example, `_messageService.PostAsync("Hello!\nI'm on a new line!");` will sen
 
 Reading separate concise messages is nicer than reading a big paragraph, in a conversational context. Think about how to effectively communicate using shorter messages.
 
-## User persistance
+## User persistence
 When you use any channel other than a webchat, such as Messenger, a user id is returned unique to each channel. When using a webchat, if the web app has a concept of user accounts, then that account id is used to identify an existing user and load their data from state.
 
 In a web app without the concept of a user account, there is no way of automatically identifying a return user. The [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) control by Microsoft is open-source, so on [my fork](https://github.com/develohpanda/BotFramework-WebChat) I have added a new boolean property named `persistUser`. The compiled version of this fork exists [here](https://github.com/develohpanda/BotFramework-WebChat), and can be used to embed an app using the CDN links (https://cdn.rawgit.com/develohpanda/Bot-Hackfest/master/botchat.css, https://cdn.rawgit.com/develohpanda/Bot-Hackfest/master/botchat.js).
@@ -292,12 +292,12 @@ MSDN documentation for configuring channels, speech priming etc [here](https://d
 
 ![Publish-8](./assets/Publish-8.png)
 
-Republish, and then you can navigate to https://your-bot-name.azurewebsites.net/ to use the chatbox.
+Republish, and then you can navigate to https://your-bot-name.azurewebsites.net/ to use the chatbot.
 
 You can also navigate to http://localhost:3979/default.htm to view the same page, although the bot will be connected to the deployed version in Azure. To debug a local version of the bot, use the bot emulator.
 
 # Having issues?
-- Is each dialog class taggged with the `[Serializable]` attribute?
+- Is each dialog class tagged with the `[Serializable]` attribute?
 - Do the service registrations have the `FiberModule.Key_DoNotSerialize` key added? 
 ```cs
 builder.RegisterType<MessageService>()

@@ -42,7 +42,7 @@ The purpose is to identify the users name and persist it. If the name is already
 
 ## Prerequisites
 - Visual Studio 2017
-- Azure Bot SDK / Emulator (v3.5.35) ([Install Instructions](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started))
+- Azure Bot Emulator (v3.5.35) ([Install Instructions](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started))
 - Azure subscription ([Sign up for a trial here](https://azure.microsoft.com/en-us/free/))
 - Hackfest Bot starter solution downloaded from [here](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw). _Suggestion: create a git repository and host it somewhere to collaborate and track changes._
 

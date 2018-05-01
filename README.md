@@ -32,7 +32,7 @@ The purpose is to identify the users name and persist it. If the name is already
 ![Setup-5](./assets/Setup-5.png)
 
 # Bot Concepts
-This section will primarily link to the [Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/) and [Bot Builder SDK]((https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-overview)) documentation on MSDN as the main source of information. At the very least, I suggest reading through the following short documents to understand the [key concepts](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-concept).
+This section will primarily link to the [Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/) and [Bot Builder SDK](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-overview) documentation on MSDN as the main source of information. At the very least, I suggest reading through the following short documents to understand the [key concepts](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-concept).
 
 ## First interaction: Language vs Menus
 [MSDN](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-first-interaction#language-versus-menus)
@@ -207,7 +207,7 @@ Reading separate concise messages is nicer than reading a big paragraph, in a co
 ## User persistance
 When you use any channel other than a webchat, such as Messenger, a user id is returned unique to each channel. When using a webchat, if the web app has a concept of user accounts, then that account id is used to identify an existing user and load their data from state.
 
-In a web app without the concept of a user account, there is no way of automatically identifying a return user. The [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) control by Microsoft is open-source, so on [my fork](https://github.com/develohpanda/BotFramework-WebChat) I have added a new boolean property named `persistUser`. The compiled version of this fork exists [here](https://github.com/develohpanda/BotFramework-WebChat), and can be used to embed an app as:
+In a web app without the concept of a user account, there is no way of automatically identifying a return user. The [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) control by Microsoft is open-source, so on [my fork](https://github.com/develohpanda/BotFramework-WebChat) I have added a new boolean property named `persistUser`. The compiled version of this fork exists [here](https://github.com/develohpanda/BotFramework-WebChat), and can be used to embed an app using the CDN links (https://cdn.rawgit.com/develohpanda/Bot-Hackfest/master/botchat.css, https://cdn.rawgit.com/develohpanda/Bot-Hackfest/master/botchat.js).
 
 If this flag is set, the modification is enabled. On launching the chat, it will generate a new user id and persist it to localstorage. If an id already exists, that id will be used to identify a return user. A timeout can be added in the future, but at the moment there is no timeout. This means in the demo above, if you have already provided your name, because the bot identifies a return user with the saved id, it knows your name and doesn't ask you again.
 

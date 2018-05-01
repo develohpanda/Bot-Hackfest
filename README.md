@@ -7,6 +7,7 @@
 - [Introduction](#introduction)
   - [Demo](#demo)
 - [Get started](#get-started)
+  - [Azure](#azure)
   - [Test locally with the Bot Emulator](#test-locally-with-the-bot-emulator)
 - [Bot Concepts](#bot-concepts)
   - [First interaction: Language vs Menus](#first-interaction-language-vs-menus)
@@ -50,6 +51,10 @@ The purpose is to identify the users name and persist it. If the name is already
 8. Navigate to http://localhost:3978/api/messages and press connect.
 
 One of the fastest ways to get something working is looking through examples and making changes. Play around with the demo project, using the docs below and on MSDN to supplement.
+
+## Azure
+
+If you don't have access to a personal Azure subscription through your Intergen provided MSDN license, you can get a free subscription with $200 credit [here](https://azure.microsoft.com/en-us/free/).
 
 ## Test locally with the Bot Emulator
 1. Install the bot emulator using the instructions [here](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started).

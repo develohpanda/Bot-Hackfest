@@ -6,8 +6,8 @@
 
 - [Introduction](#introduction)
   - [Demo](#demo)
+  - [Prerequisites](#prerequisites)
 - [Get started](#get-started)
-  - [Azure](#azure)
   - [Test locally with the Bot Emulator](#test-locally-with-the-bot-emulator)
 - [Bot Concepts](#bot-concepts)
   - [First interaction: Language vs Menus](#first-interaction-language-vs-menus)
@@ -22,7 +22,7 @@
       - [Example: Register and resolve dialog without no custom parameters](#example-register-and-resolve-dialog-without-no-custom-parameters)
       - [Example: Register and resolve dialog with custom parameters](#example-register-and-resolve-dialog-with-custom-parameters)
   - [Message service](#message-service)
-  - [User persistance](#user-persistance)
+  - [User persistence](#user-persistence)
 - [Set up Azure Environment](#set-up-azure-environment)
 - [Publish](#publish)
   - [Configure Channels](#configure-channels)
@@ -40,25 +40,27 @@ I have also added a conversation to demonstrate how a conversation may flow, emp
 
 The purpose is to identify the users name and persist it. If the name is already saved, the user is not asked and it loads from memory. It then prompts the user to type a phrase, provides suggested responses, and uses the response to determine the next step. This demo implemented in `dialogs/DemoDialog.cs` of the HackfestBotBase incorporates all of the bot concepts and features described before, and serves as an example. You can experiment with it [here](https://hackfestbotbase.azurewebsites.net/).
 
+## Prerequisites
+- Visual Studio 2017
+- Azure Bot SDK / Emulator (v3.5.35) ([Install Instructions](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started))
+- Azure subscription ([Sign up for a trial here](https://azure.microsoft.com/en-us/free/))
+- Hackfest Bot starter solution downloaded from [here](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw). _Suggestion: create a git repository and host it somewhere to collaborate and track changes._
+
 # Get started
-1. Ensure you have Visual Studio 2017 installed.
-2. Download the base solution from [here](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw). _Suggestion: create a git repository and host it somewhere to collaborate and track changes._
-3. Open the solution
-4. Right click on the solution > Restore nuget packages
-5. Build solution
-6. Start debugging the API project (F5)
-7. Open the Bot Emulator
+1. Ensure you have all prerequisites above. 
+3. Extract and open the Hackfest bot solution.
+4. Right click on the solution > Restore nuget packages.
+5. Build solution.
+6. Start debugging the API project (F5).
+7. Open the Bot Emulator.
 8. Navigate to http://localhost:3978/api/messages and press connect.
 
 One of the fastest ways to get something working is looking through examples and making changes. Play around with the demo project, using the docs below and on MSDN to supplement.
 
-## Azure
-
-If you don't have access to a personal Azure subscription through your Intergen provided MSDN license, you can get a free subscription with $200 credit [here](https://azure.microsoft.com/en-us/free/).
-
 ## Test locally with the Bot Emulator
-1. Install the bot emulator using the instructions [here](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started).
-2. Once your project has started, open the bot emulator, navigate to http://localhost:3978/api/messages and press connect.
+1. Run the Hackfest bot solution. 
+1. Open the bot emulator.
+1. Navigate to http://localhost:3978/api/messages and press connect.
 
 ![Setup-3](./assets/Setup-3.png)
 
@@ -107,7 +109,7 @@ This will allow you to see all the different types of cards that can be attached
 - [C# samples](https://github.com/Microsoft/BotBuilder-Samples/tree/master/CSharp) 
 
 # Features of the HackfestBotBase
-All of the features below, posting and recieving messages, and handling basic conversation flow, are implemented in the `DemoDialog.cs` example class. When you first run the project, this is the dialog that will power the conversation (as configured in `MessageControler.cs`).
+All of the features below, posting and receiving messages, and handling basic conversation flow, are implemented in the `DemoDialog.cs` example class. When you first run the project, this is the dialog that will power the conversation (as configured in `MessageControler.cs`).
 
 This project is built on top of the base bot project by Microsoft, so all of the documentation on MSDN is still relevant. However some patterns and helpers have been developed while building another prototype and developing internal IP, which are included within this project.
 
@@ -153,7 +155,7 @@ public string GetPreferredName(IBotData botData)
 ## Autofac/IoC
 A conversation and all of its instances/resources will get serialized and saved to the data store by the bot framework, so when creating services to integrate with the bot, we need to ensure they don't get serialized and are resolved each time. Serialization can cause unnecessary issues.
 
-When registering a service with Autofac, use the the `FiberModule.Key_DoNotSerialize` key. 
+When registering a service with Autofac, use the `FiberModule.Key_DoNotSerialize` key. 
 ```cs
 builder.RegisterType<MessageService>()
     .Keyed<IMessageService>(FiberModule.Key_DoNotSerialize)
@@ -243,7 +245,7 @@ For example, `_messageService.PostAsync("Hello!\nI'm on a new line!");` will sen
 
 Reading separate concise messages is nicer than reading a big paragraph, in a conversational context. Think about how to effectively communicate using shorter messages.
 
-## User persistance
+## User persistence
 When you use any channel other than a webchat, such as Messenger, a user id is returned unique to each channel. When using a webchat, if the web app has a concept of user accounts, then that account id is used to identify an existing user and load their data from state.
 
 In a web app without the concept of a user account, there is no way of automatically identifying a return user. The [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) control by Microsoft is open-source, so on [my fork](https://github.com/develohpanda/BotFramework-WebChat) I have added a new boolean property named `persistUser`. The compiled version of this fork exists [here](https://github.com/develohpanda/BotFramework-WebChat), and can be used to embed an app using the CDN links (https://cdn.rawgit.com/develohpanda/Bot-Hackfest/master/botchat.css, https://cdn.rawgit.com/develohpanda/Bot-Hackfest/master/botchat.js).
@@ -251,7 +253,11 @@ In a web app without the concept of a user account, there is no way of automatic
 If this flag is set, the modification is enabled. On launching the chat, it will generate a new user id and persist it to localstorage. If an id already exists, that id will be used to identify a return user. A timeout can be added in the future, but at the moment there is no timeout. This means in the demo above, if you have already provided your name, because the bot identifies a return user with the saved id, it knows your name and doesn't ask you again.
 
 # Set up Azure Environment
-We will set up a Web App Bot as a base.
+Log into the [Azure Portal](https://portal.azure.com). 
+
+Select **Create a Resource** from the menu. 
+
+We will set up a Web App Bot as a base. It's found under **AI + Cognitive Services**.
 
 ![Setup-1](./assets/Setup-1.png)
 
@@ -286,12 +292,12 @@ MSDN documentation for configuring channels, speech priming etc [here](https://d
 
 ![Publish-8](./assets/Publish-8.png)
 
-Republish, and then you can navigate to https://your-bot-name.azurewebsites.net/ to use the chatbox.
+Republish, and then you can navigate to https://your-bot-name.azurewebsites.net/ to use the chatbot.
 
 You can also navigate to http://localhost:3979/default.htm to view the same page, although the bot will be connected to the deployed version in Azure. To debug a local version of the bot, use the bot emulator.
 
 # Having issues?
-- Is each dialog class taggged with the `[Serializable]` attribute?
+- Is each dialog class tagged with the `[Serializable]` attribute?
 - Do the service registrations have the `FiberModule.Key_DoNotSerialize` key added? 
 ```cs
 builder.RegisterType<MessageService>()

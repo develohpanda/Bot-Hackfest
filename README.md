@@ -1,3 +1,33 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Introduction](#introduction)
+  - [Demo](#demo)
+- [Get started](#get-started)
+  - [Test locally with the Bot Emulator](#test-locally-with-the-bot-emulator)
+- [Bot Concepts](#bot-concepts)
+  - [First interaction: Language vs Menus](#first-interaction-language-vs-menus)
+  - [Dialogs, conversation flow](#dialogs-conversation-flow)
+  - [Dialog lifecycle](#dialog-lifecycle)
+  - [Channel inspector](#channel-inspector)
+  - [Additional links](#additional-links)
+- [Features of the HackfestBotBase](#features-of-the-hackfestbotbase)
+  - [Data storage/state helpers](#data-storagestate-helpers)
+  - [Autofac/IoC](#autofacioc)
+  - [Dialog builder](#dialog-builder)
+      - [Example: Register and resolve dialog without no custom parameters](#example-register-and-resolve-dialog-without-no-custom-parameters)
+      - [Example: Register and resolve dialog with custom parameters](#example-register-and-resolve-dialog-with-custom-parameters)
+  - [Message service](#message-service)
+  - [User persistance](#user-persistance)
+- [Set up Azure Environment](#set-up-azure-environment)
+- [Publish](#publish)
+  - [Configure Channels](#configure-channels)
+    - [DirectLine](#directline)
+- [Having issues?](#having-issues)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Introduction 
 Microsoft has a barebones C# starter project for bots, however it can require some plumbing to get running properly. By all means, if you wish to use one of those example projects, you can. For the purposes of the Hackfest, I have extracted patterns and helpers developed and used in a very recent bot.
 

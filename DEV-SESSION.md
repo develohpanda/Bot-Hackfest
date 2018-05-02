@@ -14,7 +14,7 @@
 Max 20-30 minute session
 
 ## Goals and outcomes
-The goal of the dev session is to demonstrate the high level jump start and just verbally explain what is happening. It is following the get started instructions on Github, but just demonstrating it. Secondly, run through the comments 1-14 in the `DemoDialog.cs` and `NameDialog.cs` to brifly show the **flow**.
+The goal of the dev session is to demonstrate the high level jump start and just verbally explain what is happening. It is following the get started instructions on Github, but just demonstrating it. Secondly, run through the comments 1-14 in the `DemoDialog.cs` and `NameDialog.cs` to brifly show the **flow**. Get familiar with the base solution and familiar with the bot framework. The end goal is to NOT build a production ready product, but rather to prototype and experiement an idea.
 
 ## Groups
 Get a show of hands of how many people have an idea. If there are enough, then give them all a maximum 30 seconds to pitch/explain their idea to the group (and who they need to). Then allow people to split off into groups. **Mention at the start that there will be a time to pitch at the end of the 20min session so people start thinking**.

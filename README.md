@@ -175,7 +175,7 @@ The dialog builder simplifies resolution of a dialog through an Autofac registra
 
 For this reason, all logic pertaining to dialog creation/resolution should be contained within the `dialogs/DialogBuilder.cs` class. 
 
-> Note: A conversation, its dialog stack and its state gets serialized and saved into the bot data store. For this reason, all dialogs must have the `[Serialized]` attribute applied to the class.
+> Note: A conversation, its dialog stack and its state gets serialized and saved into the bot data store. For this reason, all dialogs must have the `[Serializable]` attribute applied to the class.
 
 Use the example implementations and notes in the files below.
 - IoC registration: `IoC/ApplicationDialogsModule.cs`

@@ -158,7 +158,7 @@ public string GetPreferredName(IBotData botData)
 ...
 ```
 ## Autofac/IoC
-A conversation and all of its instances/resources will get serialized and saved to the data store by the bot framework, so when creating services to integrate with the bot, we need to ensure they don't get serialized and are resolved each time. Serialization can cause unnecessary issues.
+A conversation and all of its instances/resources will get serialized and saved to the data store by the bot framework, so when creating services to integrate with the bot, we need to ensure they don't get serialized and are instantiated each time. Serialization can cause unnecessary issues.
 
 When registering a service with Autofac, use the `FiberModule.Key_DoNotSerialize` key. 
 ```cs

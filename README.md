@@ -10,6 +10,7 @@
 - [Get started](#get-started)
   - [Test locally with the Bot Emulator](#test-locally-with-the-bot-emulator)
 - [Bot Concepts](#bot-concepts)
+  - [Designing/Wireframing](#designingwireframing)
   - [First interaction: Language vs Menus](#first-interaction-language-vs-menus)
   - [Dialogs, conversation flow](#dialogs-conversation-flow)
   - [Dialog lifecycle](#dialog-lifecycle)
@@ -75,6 +76,9 @@ One of the fastest ways to get something working is looking through examples and
 
 # Bot Concepts
 This section will primarily link to the [Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/) and [Bot Builder SDK](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-overview) documentation on MSDN as the main source of information. At the very least, I suggest reading through the following short documents to understand the [key concepts](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-concepts).
+
+## Designing/Wireframing
+Use [Bot Society](https://app.botsociety.io/) to design and visually 'see' your conversation before you start building, if you wish. It simplifies the building process significantly.
 
 ## First interaction: Language vs Menus
 [MSDN](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-first-interaction#language-versus-menus)
@@ -170,6 +174,8 @@ Use the examples in the `IoC` folder for registrations.
 The dialog builder simplifies resolution of a dialog through an Autofac registration. Because of the way Autofac requires the creation of a lifetimescope each time a registered services needs to be resolved, the code can get cluttered with unnecessary plumbing. 
 
 For this reason, all logic pertaining to dialog creation/resolution should be contained within the `dialogs/DialogBuilder.cs` class. 
+
+    Note: A conversation, its dialog stack and its state gets serialized and saved into the bot data store. For this reason, all dialogs must have the `[Serialized]` attribute applied to the class.
 
 Use the example implementations and notes in the files below.
 - IoC registration: `IoC/ApplicationDialogsModule.cs`

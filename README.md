@@ -42,7 +42,7 @@ I have also added a conversation to demonstrate how a conversation may flow, emp
 The purpose is to identify the users name and persist it. If the name is already saved, the user is not asked and it loads from memory. It then prompts the user to type a phrase, provides suggested responses, and uses the response to determine the next step. This demo implemented in `dialogs/DemoDialog.cs` of the HackfestBotBase incorporates all of the bot concepts and features described before, and serves as an example. You can experiment with it [here](https://hackfestbotbase.azurewebsites.net/).
 
 ## Prerequisites
-- Visual Studio 2017
+- Visual Studio 2017 (optional: Azure SDK)
 - Azure Bot Emulator (v3.5.35) ([Install Instructions](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started))
 - Azure subscription ([Sign up for a trial here](https://azure.microsoft.com/en-us/free/))
 - Hackfest Bot starter solution downloaded from [here](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw). _Suggestion: create a git repository and host it somewhere to collaborate and track changes._

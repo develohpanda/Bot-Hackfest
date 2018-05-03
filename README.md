@@ -45,7 +45,7 @@ The purpose is to identify the users name and persist it. If the name is already
 - Visual Studio 2017 (optional: Azure SDK)
 - Azure Bot Emulator (v3.5.35) ([Install Instructions](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started))
 - Azure subscription ([Sign up for a trial here](https://azure.microsoft.com/en-us/free/))
-- Hackfest Bot starter solution downloaded from [here](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw). _Suggestion: create a git repository and host it somewhere to collaborate and track changes._
+- Hackfest Bot starter solution downloaded from [here](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw). _Suggestion: create a git repository and host it somewhere **privately** to collaborate and track changes. This needs to be kept private as it is internal IP._
 - Join the [Hackfest group on Yammer](https://www.yammer.com/intergen.co.nz/#/threads/inGroup?type=in_group&feedId=14444836&view=all). It will be the primary channel to post questions, suggestions, or to show off ideas. These grants visibility to all tech leads to pitch in when appropriate.
 - Microsoft Edge (use other browsers at your own risk, they can give issues in Azure or while running the demo)
 

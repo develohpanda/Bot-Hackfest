@@ -305,6 +305,14 @@ Republish, and then you can navigate to https://your-bot-name.azurewebsites.net/
 
 You can also navigate to http://localhost:3979/default.htm to view the same page, although the bot will be connected to the deployed version in Azure. To debug a local version of the bot, use the bot emulator.
 
+# Submit
+
+**Submit your entry at [bit.ly/bot-hackfest-submit](http://bit.ly/bot-hackfest-submit)**
+
+You can either publish your bot and let us play with it, or create and upload a video to share with us. Be sure to include a description of the features you have added, the drive behind the bot and why it an improvement in the user experience. Tell us about anything unique you did.
+
+Basically, submit anything that screams **"we should win"**!
+
 # Having issues?
 - Is each dialog class tagged with the `[Serializable]` attribute?
 - Do the service registrations have the `FiberModule.Key_DoNotSerialize` key added? 

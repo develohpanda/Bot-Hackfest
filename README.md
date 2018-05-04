@@ -35,7 +35,7 @@
 # Introduction 
 Microsoft has a barebones C# starter project for bots, however it can require some plumbing to get running properly. By all means, if you wish to use one of those example projects, you can. For the purposes of the Hackfest, I have extracted patterns and helpers developed and used in a very recent bot.
 
-I have also added a conversation to demonstrate how a conversation may flow, employing some of the helpers included in the [HackfestBotBase](https://intergen1-my.sharepoint.com/:f:/g/personal/openders_intergen_org_nz/Et7L8EqkBWxCk6pK78_8UrUBgeKqr1vaoywMF38NjKxTEw).
+I have also added a conversation to demonstrate how a conversation may flow, employing some of the helpers included in the [HackfestBotBase](http://bit.ly/bot-hackfest-code).
 
 ## Demo
 
@@ -45,7 +45,7 @@ The purpose is to identify the users name and persist it. If the name is already
 - Visual Studio 2017 (optional: Azure SDK)
 - Azure Bot Emulator (v3.5.35) ([Install Instructions](https://github.com/Microsoft/BotFramework-Emulator/wiki/Getting-Started))
 - Azure subscription ([Sign up for a trial here](https://azure.microsoft.com/en-us/free/))
-- Access the code on the VSO project [here](https://intergen.visualstudio.com/FHF Bot Hackfest). Fork the HackfestBotBase repository for your team and start hacking! _This repository needs to be kept private as it is internal IP. For Auckland, the MA developer in your team will have admin access and can add you as a member._
+- Access the code on the VSO project [here](http://bit.ly/bot-hackfest-code). Fork the HackfestBotBase repository for your team and start hacking! _This repository needs to be kept private as it is internal IP. For Auckland, the MA developer in your team will have admin access and can add you as a member._ Alternatively, get the code from [here](http://bit.ly/bot-hackfest-base)
 - Join the [Hackfest group on Yammer](https://www.yammer.com/intergen.co.nz/#/threads/inGroup?type=in_group&feedId=14444836&view=all). It will be the primary channel to post questions, suggestions, or to show off ideas. These grants visibility to all tech leads to pitch in when appropriate.
 - Microsoft Edge (use other browsers at your own risk, they can give issues in Azure or while running the demo)
 
